@@ -21,8 +21,8 @@ public class ExternalDataStructController implements ExternalDataStructAPI {
     }
 
     @Override
-    public String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS, Integer sheetAt) {
-        return externalDataStructService.saveAll(file,colonneDAOS,sheetAt);
+    public String saveAll(MultipartFile file, Integer sheetAt) {
+        return externalDataStructService.saveAll(file,sheetAt);
     }
 
     @Override

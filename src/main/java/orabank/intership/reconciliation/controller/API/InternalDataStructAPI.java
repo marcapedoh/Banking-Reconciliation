@@ -21,7 +21,7 @@ public interface InternalDataStructAPI {
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "les données ont ete bien crée ")
     })
-    String saveAll(@RequestPart("file") MultipartFile file,@RequestBody List<ColonneDAO> colonneDAOS);
+    String saveAll(@RequestPart("file") MultipartFile file);
 
     @DeleteMapping(value = APP_ROOT+"/DonneesWhatsappBanking/delete/{id}")
     void deleteById(@PathVariable("id") Integer id);

@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface InternalDataStructService {
-    String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS);
+    String saveAll(MultipartFile file);
     void deleteById(Integer id);
 }
 

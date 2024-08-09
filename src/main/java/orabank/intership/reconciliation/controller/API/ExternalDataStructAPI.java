@@ -21,7 +21,7 @@ public interface ExternalDataStructAPI {
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "les données ont ete bien crée ")
     })
-    String saveAll(@RequestPart("file") MultipartFile file, @RequestBody List<ColonneDAO> colonneDAOS,@PathVariable("sheetAt") Integer sheetAt);
+    String saveAll(@RequestPart("file") MultipartFile file,@PathVariable("sheetAt") Integer sheetAt);
 
     @DeleteMapping(value = APP_ROOT+"/DonneesPartenaire/delete/{id}")
     void deleteById(@PathVariable("id") Integer id);

@@ -28,16 +28,13 @@ public class ExternalDataStructServiceImpl implements ExternalDataStructService 
     }
 
     @Override
-    public String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS, Integer sheetAt) {
+    public String saveAll(MultipartFile file, Integer sheetAt) {
         if(file.isEmpty()){
             log.warn("le fichier que vous passez en parametre est vide");
             throw new InvalidEntityException("Fichier vide", ErrorCodes.FILE_EMPTY);
         }
-        if(colonneDAOS==null){
-            throw new InvalidOperationException("les colonnes doivent obligatoirement etre fourni");
-        }
         try {
-            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),colonneDAOS,sheetAt);
+            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),sheetAt);
         }catch (IOException ex){
             log.warn("erreur lors de la lecture du fichier "+ex.getMessage());
         }

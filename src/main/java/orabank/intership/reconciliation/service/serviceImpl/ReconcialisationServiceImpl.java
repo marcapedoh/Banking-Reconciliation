@@ -29,15 +29,41 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
     public String reconcialisation() {
         var internDataDAO=internalDataStructRepository.findAll().stream().map(InternalDataStructDAO::fromEntity).collect(Collectors.toList());
         var externDataDAO=externalDataStructRepository.findAll().stream().map(ExternalDataStructDAO::fromEntity).collect(Collectors.toList());
-        for(ExternalDataStructDAO externalDataStructDAO:externDataDAO){
-            for (InternalDataStructDAO internalDataStructDAO:internDataDAO){
-                if(Objects.equals(externalDataStructDAO.getReferenceId(), internalDataStructDAO.getCommandeRef()) && externalDataStructDAO.getMontant()==internalDataStructDAO.getMontant()){
-                    return "transaction vérifié et conforme commandId(Orabank) "+internalDataStructDAO.getCommandeRef()+" - CommandId(partenaire)"+externalDataStructDAO.getReferenceId() +"pour un montant de: "+externalDataStructDAO.getMontant();
-                }else{
-                    return "erreur erreur! vérifier vos transactions il y a une erreur le numero de commande n'est pas trouvé ou le montant est différent! voici les données: (commandRefOrabank)" +internalDataStructDAO.getCommandeRef()+" Montant "+internalDataStructDAO.getMontant()+"(commandRefPartenaire) "+externalDataStructDAO.getReferenceId()+" Montant "+externalDataStructDAO.getMontant();
+        StringBuilder result = new StringBuilder();
+        boolean foundMatch = false;
+        StringBuilder errorResult = new StringBuilder();
+
+        for (ExternalDataStructDAO externalDataStructDAO : externDataDAO) {
+            boolean isMatched = false; // Variable pour savoir si une correspondance a été trouvée pour chaque externalDataStructDAO
+
+            for (InternalDataStructDAO internalDataStructDAO : internDataDAO) {
+                if (Objects.equals(externalDataStructDAO.getReferenceId(), internalDataStructDAO.getCommandeRef())
+                        && externalDataStructDAO.getMontant() == internalDataStructDAO.getMontant()) {
+                    foundMatch = true;
+                    isMatched = true; // Une correspondance a été trouvée
+                    result.append("Transaction vérifiée et conforme: CommandId(Orabank) ")
+                            .append(internalDataStructDAO.getCommandeRef())
+                            .append(" Montant ").append(internalDataStructDAO.getMontant())
+                            .append(" - CommandId(partenaire) ")
+                            .append(externalDataStructDAO.getReferenceId())
+                            .append(" pour un montant de: ")
+                            .append(externalDataStructDAO.getMontant())
+                            .append("\n");
+                    break; // Sortir de la boucle interne si une correspondance est trouvée
                 }
             }
+
+            // Si aucune correspondance n'a été trouvée pour cet externalDataStructDAO
+            if (!isMatched) {
+                errorResult.append("Erreur! CommandId(partenaire) ")
+                        .append(externalDataStructDAO.getReferenceId())
+                        .append(" avec Montant ").append(externalDataStructDAO.getMontant())
+                        .append(" n'a pas trouvé de correspondance.\n");
+            }
         }
-        return "Fin!";
+
+        // Renvoyer les résultats
+        String finalResult = result.toString() + "\n" + errorResult.toString();
+        return finalResult;
     }
 }

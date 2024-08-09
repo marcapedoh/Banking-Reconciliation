@@ -22,16 +22,13 @@ public class InternalDataStructServiceImpl implements InternalDataStructService 
     private final DataInitializer dataInitializer;
 
     @Override
-    public String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS) {
+    public String saveAll(MultipartFile file) {
         if(file.isEmpty()){
             log.warn("le fichier que vous passez en parametre est vide");
             throw new InvalidEntityException("Fichier vide", ErrorCodes.FILE_EMPTY);
         }
-        if(colonneDAOS==null){
-            throw new InvalidOperationException("les colonnes doivent obligatoirement etre fourni");
-        }
         try {
-            dataInitializer.saveExcelData(file.getInputStream(),colonneDAOS);
+            dataInitializer.saveExcelData(file.getInputStream());
         }catch (IOException ex){
             log.warn("erreur lors de la lecture du fichier "+ex.getMessage());
         }

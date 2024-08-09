@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ExternalDataStructService {
-    String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS,Integer sheetAt);
+    String saveAll(MultipartFile file,Integer sheetAt);
     void deleteById(Integer id);
 }

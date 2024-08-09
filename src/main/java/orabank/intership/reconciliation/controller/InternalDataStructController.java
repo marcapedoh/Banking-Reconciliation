@@ -21,8 +21,8 @@ public class InternalDataStructController implements InternalDataStructAPI {
     }
 
     @Override
-    public String saveAll(MultipartFile file, List<ColonneDAO> colonneDAOS) {
-        return internalDataStructService.saveAll(file,colonneDAOS);
+    public String saveAll(MultipartFile file) {
+        return internalDataStructService.saveAll(file);
     }
 
     @Override

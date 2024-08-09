@@ -1,5 +1,6 @@
 package orabank.intership.reconciliation.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class ColonneDAO {
     private Integer id;
     private int position;
     private String nomColonne;
+    @JsonIgnore
     private PartenaireDAO partenaire;
 
     public static ColonneDAO fromEntity(Colonne colonne){
@@ -24,7 +26,6 @@ public class ColonneDAO {
                 .id(colonne.getId())
                 .position(colonne.getPosition())
                 .nomColonne(colonne.getNomColonne())
-                .partenaire(PartenaireDAO.fromEntity(colonne.getPartenaire()))
                 .build();
     }
 
@@ -37,7 +38,6 @@ public class ColonneDAO {
         colonne.setId(colonneDAO.getId());
         colonne.setPosition(colonneDAO.getPosition());
         colonne.setNomColonne(colonneDAO.getNomColonne());
-        colonne.setPartenaire(PartenaireDAO.toEntity(colonneDAO.getPartenaire()));
         return colonne;
     }
 }
