@@ -24,17 +24,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    @Override
-    public UtilisateurDAO save(UtilisateurDAO utilisateurDAO) {
-        List<String> error= UtilisateurValidator.validate(utilisateurDAO);
-        if(!error.isEmpty()){
-            log.warn("voici votre utilisateur {}",utilisateurDAO);
-            throw new InvalidEntityException("Utilisateur non valide", ErrorCodes.UTILISATEUR_NOT_VALID);
-        }
-        return UtilisateurDAO.fromEntity(
-                utilisateurRepository.save(UtilisateurDAO.toEntity(utilisateurDAO))
-        );
-    }
 
     @Override
     public UtilisateurDAO findById(Integer id) {

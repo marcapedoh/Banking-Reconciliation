@@ -8,7 +8,8 @@ public enum ErrorCodes {
     COLONNE_NOT_FOUND(2000),
     COLONNE_NOT_VALID(2001),
     PARTENAIRE_NOT_FOUND(3000),
-    PARTENAIRE_NOT_VALID(3001);
+    PARTENAIRE_NOT_VALID(3001),
+    REPERTOIRE_NOT_VALID(4000);
 
     ErrorCodes(int code){
         this.errorCode=code;

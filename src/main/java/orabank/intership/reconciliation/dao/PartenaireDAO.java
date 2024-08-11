@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import orabank.intership.reconciliation.models.Colonne;
+import orabank.intership.reconciliation.models.ExternalDataStruct;
 import orabank.intership.reconciliation.models.Partenaire;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class PartenaireDAO {
     private String nom;
     @JsonIgnore
     private List<Colonne> colonnes;
+    @JsonIgnore
+    private List<ExternalDataStruct> externalDataStructs;
 
     public static PartenaireDAO fromEntity(Partenaire partenaire){
         if(partenaire==null){

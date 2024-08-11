@@ -26,7 +26,7 @@ public class UtilisateurDAO {
                 .id(utilisateur.getId())
                 .nom(utilisateur.getNom())
                 .prenom(utilisateur.getPrenom())
-                .userName(utilisateur.getUserName())
+                .userName(utilisateur.getUsername())
                 .motDePasse(utilisateur.getMotDePasse())
                 .build();
     }

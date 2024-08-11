@@ -4,8 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import orabank.intership.reconciliation.Exception.EntityNotFoundException;
 import orabank.intership.reconciliation.Exception.ErrorCodes;
 import orabank.intership.reconciliation.Exception.InvalidEntityException;
+import orabank.intership.reconciliation.Exception.InvalidOperationException;
 import orabank.intership.reconciliation.dao.PartenaireDAO;
+import orabank.intership.reconciliation.dao.RepertoireDAO;
 import orabank.intership.reconciliation.repository.PartenaireRepository;
+import orabank.intership.reconciliation.repository.RepertoireRepository;
 import orabank.intership.reconciliation.service.PartenaireService;
 import orabank.intership.reconciliation.validators.PartenaireValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PartenaireServiceImpl implements PartenaireService {
     private final PartenaireRepository partenaireRepository;
+    private final RepertoireRepository repertoireRepository;
 
     @Autowired
-    public PartenaireServiceImpl(PartenaireRepository partenaireRepository) {
+    public PartenaireServiceImpl(PartenaireRepository partenaireRepository,RepertoireRepository repertoireRepository) {
         this.partenaireRepository = partenaireRepository;
+        this.repertoireRepository= repertoireRepository;
     }
 
     @Override
@@ -61,6 +66,9 @@ public class PartenaireServiceImpl implements PartenaireService {
 
     @Override
     public void deleteById(Integer id) {
+        if(repertoireRepository.findAllByPartenaireRepId(id)!=null){
+            throw new InvalidOperationException("vous ne pouvez pas supprimé ce partenaire qui est relié à un ou plusieurs repertoire");
+        }
         partenaireRepository.deleteById(id);
     }
 }

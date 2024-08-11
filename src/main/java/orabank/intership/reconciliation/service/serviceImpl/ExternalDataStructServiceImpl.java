@@ -28,13 +28,13 @@ public class ExternalDataStructServiceImpl implements ExternalDataStructService 
     }
 
     @Override
-    public String saveAll(MultipartFile file, Integer sheetAt) {
+    public String saveAll(MultipartFile file,Integer sheetAt,Integer referencePositionAt,Integer montantPosition) {
         if(file.isEmpty()){
             log.warn("le fichier que vous passez en parametre est vide");
             throw new InvalidEntityException("Fichier vide", ErrorCodes.FILE_EMPTY);
         }
         try {
-            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),sheetAt);
+            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),sheetAt,referencePositionAt,montantPosition);
         }catch (IOException ex){
             log.warn("erreur lors de la lecture du fichier "+ex.getMessage());
         }

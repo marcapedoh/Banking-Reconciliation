@@ -21,8 +21,8 @@ public class InternalDataStructController implements InternalDataStructAPI {
     }
 
     @Override
-    public String saveAll(MultipartFile file) {
-        return internalDataStructService.saveAll(file);
+    public String saveAll(MultipartFile file,Integer referenceIdPosition,Integer montantPosition,Integer commandRefPosition) {
+        return internalDataStructService.saveAll(file,referenceIdPosition,montantPosition,commandRefPosition);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package orabank.intership.reconciliation.models;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,12 +13,10 @@ import lombok.*;
 @Entity
 @Builder
 @EqualsAndHashCode(callSuper = true)
-public class ExternalDataStruct extends AbstractEntity{
-    @Column(name = "referenceId",nullable = false)
-    private String referenceId;
-    @Column(name = "montant",nullable = false)
-    private double montant;
+public class Repertoire extends AbstractEntity{
+    @Column(name = "nom",nullable = false)
+    private String nom;
     @ManyToOne
     @JoinColumn(name = "idPartenaire")
-    private Partenaire partenaireData;
+    private Partenaire partenaireRep;
 }

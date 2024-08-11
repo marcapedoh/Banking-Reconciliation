@@ -23,7 +23,7 @@ import java.util.List;
 public class DataInitializer {
     private final ExternalDataStructRepository externalDataStructRepository;
     private final InternalDataStructRepository internalDataStructRepository;
-    public void saveExcelData(InputStream inputStream){
+    public void saveExcelData(InputStream inputStream,Integer referenceIdPosition,Integer montantPosition,Integer commandRefPosition){
         List<InternalDataStructDAO> internalDataStructDAOS= new ArrayList<>();
         try {
             Workbook workbook= WorkbookFactory.create(inputStream);
@@ -32,9 +32,9 @@ public class DataInitializer {
                 if (row.getRowNum() == 0) {
                     return; // Ignore la première ligne
                 }
-                double referenceId= row.getCell(0).getNumericCellValue();
-                double montant= row.getCell(4).getNumericCellValue();
-                String commandeRef=row.getCell(9).getStringCellValue();
+                double referenceId= row.getCell(referenceIdPosition).getNumericCellValue();
+                double montant= row.getCell(montantPosition).getNumericCellValue();
+                String commandeRef=row.getCell(commandRefPosition).getStringCellValue();
                 InternalDataStructDAO internalDataStructDAO= InternalDataStructDAO.builder()
                         .referenceId((long) referenceId)
                         .montant(montant)
@@ -49,7 +49,7 @@ public class DataInitializer {
             log.error("Erreur lors du passage du fichier excel");
         }
     }
-    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer sheetAt){
+    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer sheetAt,Integer referencePositionAt,Integer montantPosition){
         List<ExternalDataStructDAO> externalDataStructDAOS= new ArrayList<>();
         try {
             Workbook workbook= WorkbookFactory.create(inputStream);
@@ -58,8 +58,8 @@ public class DataInitializer {
                 if (rowExternal.getRowNum() == 0) {
                     return;
                 }
-                String referenceId= rowExternal.getCell(0).getStringCellValue();
-                double montant= rowExternal.getCell(5).getNumericCellValue();
+                String referenceId= rowExternal.getCell(referencePositionAt).getStringCellValue();
+                double montant= rowExternal.getCell(montantPosition).getNumericCellValue();
                 ExternalDataStructDAO externalDataStructDAO= ExternalDataStructDAO.builder()
                         .referenceId(referenceId)
                         .montant(montant)

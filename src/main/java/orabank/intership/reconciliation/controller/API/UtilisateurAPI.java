@@ -16,12 +16,6 @@ import static orabank.intership.reconciliation.constant.Utils.APP_ROOT;
 
 @Api(APP_ROOT+"/Utilisateurs")
 public interface UtilisateurAPI {
-    @PostMapping(value = APP_ROOT+"/Utilisateurs/create",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "enregistrer un utilisateur", notes=" cette methode permet d'enregistrer et modifier un utilisateur",response = UtilisateurDAO.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200,message = "l'utilisateur a ete bien crée ou modifié")
-    })
-    UtilisateurDAO save(@RequestBody UtilisateurDAO utilisateurDAO);
     @GetMapping(value = APP_ROOT+"/Utilisateurs/findById/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Rechercher un utilisateur", notes=" cette methode permet de rechercher un utilisateur par son id",response = UtilisateurDAO.class)
     @ApiResponses(value = {

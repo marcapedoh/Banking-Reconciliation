@@ -20,10 +20,6 @@ public class UtilisateurController implements UtilisateurAPI {
         this.utilisateurService = utilisateurService;
     }
 
-    @Override
-    public UtilisateurDAO save(UtilisateurDAO utilisateurDAO) {
-        return utilisateurService.save(utilisateurDAO);
-    }
 
     @Override
     public UtilisateurDAO findById(Integer id) {

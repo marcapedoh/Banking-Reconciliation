@@ -17,6 +17,7 @@ public class ExternalDataStructDAO {
     private Integer id;
     private String referenceId;
     private double montant;
+    private PartenaireDAO partenaireData;
 
     public static ExternalDataStructDAO fromEntity(ExternalDataStruct externalDataStruct){
         if(externalDataStruct==null){
@@ -26,6 +27,7 @@ public class ExternalDataStructDAO {
                 .id(externalDataStruct.getId())
                 .referenceId(externalDataStruct.getReferenceId())
                 .montant(externalDataStruct.getMontant())
+                .partenaireData(PartenaireDAO.fromEntity(externalDataStruct.getPartenaireData()))
                 .build();
     }
     public static  ExternalDataStruct toEntity(ExternalDataStructDAO externalDataStructDAO){
@@ -36,6 +38,7 @@ public class ExternalDataStructDAO {
         externalDataStruct.setId(externalDataStructDAO.getId());
         externalDataStruct.setReferenceId(externalDataStructDAO.getReferenceId());
         externalDataStruct.setMontant(externalDataStructDAO.getMontant());
+        externalDataStruct.setPartenaireData(PartenaireDAO.toEntity(externalDataStructDAO.getPartenaireData()));
         return externalDataStruct;
     }
 
@@ -48,6 +51,7 @@ public class ExternalDataStructDAO {
             externalDataStructs.add(ExternalDataStruct.builder()
                             .referenceId(externalDataStructDAO.getReferenceId())
                             .montant(externalDataStructDAO.getMontant())
+                            .partenaireData(PartenaireDAO.toEntity(externalDataStructDAO.getPartenaireData()))
                     .build());
         }
         return externalDataStructs;

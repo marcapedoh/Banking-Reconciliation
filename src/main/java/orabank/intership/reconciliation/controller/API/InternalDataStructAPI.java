@@ -16,12 +16,12 @@ import static orabank.intership.reconciliation.constant.Utils.APP_ROOT;
 
 @Api(APP_ROOT+"/DonneesWhatsappBanking")
 public interface InternalDataStructAPI {
-    @PostMapping(value = APP_ROOT+"/DonneesWhatsappBanking/saveAll",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT+"/DonneesWhatsappBanking/saveAll/{referenceIdPosition}/{montantPosition}/{commandRefPosition}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "enregistrer des données par lots pour les partenaires", notes=" cette methode permet d'enregistrer des données des partenaires",response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "les données ont ete bien crée ")
     })
-    String saveAll(@RequestPart("file") MultipartFile file);
+    String saveAll(@RequestPart("file") MultipartFile file,@PathVariable("referenceIdPosition") Integer referenceIdPosition,@PathVariable("montantPosition") Integer montantPosition,@PathVariable("commandRefPosition") Integer commandRefPosition);
 
     @DeleteMapping(value = APP_ROOT+"/DonneesWhatsappBanking/delete/{id}")
     void deleteById(@PathVariable("id") Integer id);
