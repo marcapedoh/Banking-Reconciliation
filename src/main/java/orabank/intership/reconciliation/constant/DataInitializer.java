@@ -32,11 +32,11 @@ public class DataInitializer {
                 if (row.getRowNum() == 0) {
                     return; // Ignore la première ligne
                 }
-                double referenceId= row.getCell(referenceIdPosition).getNumericCellValue();
+                String referenceId= row.getCell(referenceIdPosition).getStringCellValue();
                 double montant= row.getCell(montantPosition).getNumericCellValue();
                 String commandeRef=row.getCell(commandRefPosition).getStringCellValue();
                 InternalDataStructDAO internalDataStructDAO= InternalDataStructDAO.builder()
-                        .referenceId((long) referenceId)
+                        .referenceId( referenceId)
                         .montant(montant)
                         .commandeRef(commandeRef)
                         .build();

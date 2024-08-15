@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class InternalDataStructDAO {
     private Integer id;
-    private long referenceId;
+    private String  referenceId;
     private double montant;
     private String commandeRef;
 
