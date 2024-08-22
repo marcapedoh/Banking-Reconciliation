@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orabank.intership.reconciliation.Exception.EntityNotFoundException;
 import orabank.intership.reconciliation.config.JwtService;
+import orabank.intership.reconciliation.dao.UtilisateurDAO;
 import orabank.intership.reconciliation.models.UserType;
 import orabank.intership.reconciliation.models.Utilisateur;
 import orabank.intership.reconciliation.repository.UtilisateurRepository;

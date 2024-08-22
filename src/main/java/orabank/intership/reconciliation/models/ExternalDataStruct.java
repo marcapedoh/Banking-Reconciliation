@@ -16,7 +16,7 @@ public class ExternalDataStruct extends AbstractEntity{
     @Column(name = "CmdReference",nullable = false)
     private String commandeRef;
     @Column(name = "RefRel",nullable = false)
-    private String refRel;
+    private long refRel;
     @Column(name = "Reference",nullable = false)
     private String reference;
     @Column(name = "Date",nullable = false)

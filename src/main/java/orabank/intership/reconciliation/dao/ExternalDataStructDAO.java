@@ -20,7 +20,7 @@ import java.util.List;
 public class ExternalDataStructDAO {
     private Integer id;
     private String commandeRef;
-    private String refRel;
+    private long refRel;
     private String reference;
     private String date;
     private String type;
@@ -80,6 +80,16 @@ public class ExternalDataStructDAO {
         List<ExternalDataStruct> externalDataStructs= new ArrayList<>();
         for(ExternalDataStructDAO externalDataStructDAO:externalDataStructDAOS){
             externalDataStructs.add(ExternalDataStruct.builder()
+                            .commandeRef(externalDataStructDAO.getCommandeRef())
+                            .refRel(externalDataStructDAO.getRefRel())
+                            .reference(externalDataStructDAO.getReference())
+                            .date(externalDataStructDAO.getDate())
+                            .type(externalDataStructDAO.getType())
+                            .etat(externalDataStructDAO.getEtat())
+                            .compte(externalDataStructDAO.getCompte())
+                            .commission(externalDataStructDAO.getCommission())
+                            .refApiTierce(externalDataStructDAO.getRefApiTierce())
+                            .refOperateur(externalDataStructDAO.getRefOperateur())
                             .montant(externalDataStructDAO.getMontant())
                             .partenaireData(PartenaireDAO.toEntity(externalDataStructDAO.getPartenaireData()))
                     .build());

@@ -1,5 +1,10 @@
 package orabank.intership.reconciliation.service;
 
+import orabank.intership.reconciliation.dao.ColonneDAO;
+import orabank.intership.reconciliation.dao.ReconciliationResponseDAO;
+
+import java.util.List;
+
 public interface ReconcialisationService {
-    String reconcialisation();
+    List<String> reconcialisation(List<ColonneDAO> colonneDAOS);
 }

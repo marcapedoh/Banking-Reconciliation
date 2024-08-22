@@ -53,6 +53,7 @@ public class RepertoireServiceImpl implements RepertoireService {
 
     @Override
     public void deleteById(Integer id) {
+        assert id != null;
         repertoireRepository.deleteById(id);
     }
 }

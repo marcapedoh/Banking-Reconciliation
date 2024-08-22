@@ -60,6 +60,14 @@ public class ColonneServiceImpl implements ColonneService {
     }
 
     @Override
+    public List<ColonneDAO> findAllByPartenerNom(String nom) {
+        assert nom!=null;
+        return colonneRepository.findAllByPartenaireNom(nom).stream()
+                .map(ColonneDAO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteById(Integer id) {
         assert id!=null;
         colonneRepository.deleteById(id);

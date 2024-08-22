@@ -27,6 +27,11 @@ public class UtilisateurController implements UtilisateurAPI {
     }
 
     @Override
+    public UtilisateurDAO save(UtilisateurDAO user) {
+        return utilisateurService.save(user);
+    }
+
+    @Override
     public UtilisateurDAO findByNom(String nom) {
         return utilisateurService.findByNom(nom);
     }

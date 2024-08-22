@@ -41,6 +41,13 @@ public interface ColonneAPI {
     })
     List<ColonneDAO> findAll();
 
+    @GetMapping(value = APP_ROOT+"/Colonnes/findAllByPartenerNom/{nom}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Renvoi la liste des colonnes", notes=" cette methode permet de retourner des colonnes ",responseContainer = "List<ColonneDAO>")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200,message = "liste des colonnes/liste vide")
+    })
+    List<ColonneDAO> findAllByPartenerNom(@PathVariable("nom") String nom);
+
     @DeleteMapping(value = APP_ROOT+"/Colonnes/delete/{id}")
     void deleteById(@PathVariable("id") Integer id);
 }

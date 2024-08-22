@@ -9,8 +9,10 @@ import orabank.intership.reconciliation.repository.UtilisateurRepository;
 import orabank.intership.reconciliation.service.UtilisateurService;
 import orabank.intership.reconciliation.validators.UtilisateurValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,12 +20,26 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UtilisateurServiceImpl implements UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,PasswordEncoder passwordEncoder) {
         this.utilisateurRepository = utilisateurRepository;
+        this.passwordEncoder=passwordEncoder;
     }
 
+
+    @Override
+    public UtilisateurDAO save(UtilisateurDAO user) {
+        List<String> errors= UtilisateurValidator.validate(user);
+        if (!errors.isEmpty()){
+            throw new InvalidEntityException("utilisateurnon valide");
+        }
+        user.setMotDePasse(passwordEncoder.encode(user.getMotDePasse()));
+        return UtilisateurDAO.fromEntity(
+                utilisateurRepository.save(UtilisateurDAO.toEntity(user))
+        );
+    }
 
     @Override
     public UtilisateurDAO findById(Integer id) {

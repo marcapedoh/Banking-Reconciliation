@@ -9,5 +9,6 @@ public interface ColonneService {
     ColonneDAO findById(Integer id);
     ColonneDAO findByNom(String nom);
     List<ColonneDAO> findAll();
+    List<ColonneDAO> findAllByPartenerNom(String nom);
     void deleteById(Integer id);
 }

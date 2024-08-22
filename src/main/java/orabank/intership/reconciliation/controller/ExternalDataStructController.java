@@ -21,12 +21,15 @@ public class ExternalDataStructController implements ExternalDataStructAPI {
     }
 
     @Override
-    public String saveAll(MultipartFile file, Integer sheetAt,Integer referencePositionAt,Integer montantPosition) {
-        return externalDataStructService.saveAll(file,sheetAt,referencePositionAt,montantPosition);
+    public String saveAll(MultipartFile file, Integer sheetAt,Integer partenaireId) {
+        return externalDataStructService.saveAll(file,partenaireId,sheetAt);
     }
 
     @Override
     public void deleteById(Integer id) {
         externalDataStructService.deleteById(id);
     }
+
+    @Override
+    public void deleteAllDataStruct() { externalDataStructService.deleteAllDataStruct(); }
 }

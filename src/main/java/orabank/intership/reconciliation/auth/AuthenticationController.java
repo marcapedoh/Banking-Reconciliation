@@ -18,8 +18,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-    @PostMapping(value = "/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request,String userRole){
+    @PostMapping(value = "/register/{userRole}")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request,@PathVariable("userRole") String userRole){
         return ResponseEntity.ok(authenticationService.register(request,userRole));
     }
 }

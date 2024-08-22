@@ -40,6 +40,11 @@ public class ColonneController implements ColonneAPI {
     }
 
     @Override
+    public List<ColonneDAO> findAllByPartenerNom(String nom) {
+        return colonneService.findAllByPartenerNom(nom);
+    }
+
+    @Override
     public void deleteById(Integer id) {
         colonneService.deleteById(id);
     }

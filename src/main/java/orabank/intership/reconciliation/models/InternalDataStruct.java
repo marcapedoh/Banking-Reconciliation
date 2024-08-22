@@ -14,37 +14,37 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = true)
 public class InternalDataStruct extends AbstractEntity {
     @Column(name = "refRel",nullable = false)
-    private String refRel;
+    private long refRel;
     @Column(name = "reference",nullable = false)
     private String reference;
     @Column(name = "Date",nullable = false)
-    private Instant date;
+    private String date;
     @Column(name = "Type",nullable = false)
     private String type;
     @Column(name = "Montant",nullable = false)
-    private String montant;
+    private double montant;
     @Column(name = "Commission",nullable = false)
-    private String commission;
+    private double commission;
     @Column(name = "Etat",nullable = false)
-    private String Etat;
+    private String etat;
     @Column(name = "Compte",nullable = false)
-    private String Compte;
+    private String compte;
     @Column(name = "RefApiTierce",nullable = false)
-    private String RefApiTierce;
+    private String refApiTierce;
     @Column(name = "cmdReference",nullable = false)
     private String commandeRef;
     @Column(name = "RefOperateur",nullable = false)
     private String refOperateur;
     @Column(name = "isSuccess",nullable = false)
-    private String isSuccess;
+    private boolean isSuccess;
     @Column(name = "isConfirmed",nullable = false)
-    private String isConfirmed;
+    private boolean isConfirmed;
     @Column(name = "processingSuccess",nullable = false)
-    private String processingSuccess;
+    private boolean processingSuccess;
     @Column(name = "checkProcessing",nullable = false)
-    private String checkProcessing;
+    private boolean checkProcessing;
     @Column(name = "isCanceledRefunded",nullable = false)
-    private String isCanceledRefunded;
+    private boolean isCanceledRefunded;
     @Column(name = "isCanceled",nullable = false)
-    private String isCanceled;
+    private boolean isCanceled;
 }

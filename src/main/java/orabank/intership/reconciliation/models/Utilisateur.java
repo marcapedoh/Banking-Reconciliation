@@ -1,14 +1,14 @@
 package orabank.intership.reconciliation.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,6 +19,8 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 public class Utilisateur extends AbstractEntity implements UserDetails {
+
+
     @Column(name = "nom",nullable = false)
     private String nom;
     @Column(name = "prenom",nullable = false)

@@ -7,6 +7,7 @@ import orabank.intership.reconciliation.Exception.InvalidOperationException;
 import orabank.intership.reconciliation.constant.DataInitializer;
 import orabank.intership.reconciliation.dao.ColonneDAO;
 import orabank.intership.reconciliation.repository.ExternalDataStructRepository;
+import orabank.intership.reconciliation.repository.InternalDataStructRepository;
 import orabank.intership.reconciliation.service.ExternalDataStructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,22 +20,24 @@ import java.util.List;
 @Slf4j
 public class ExternalDataStructServiceImpl implements ExternalDataStructService {
     private final ExternalDataStructRepository externalDataStructRepository;
+    private final InternalDataStructRepository internalDataStructRepository;
     private final DataInitializer dataInitializer;
 
     @Autowired
-    public ExternalDataStructServiceImpl(ExternalDataStructRepository externalDataStructRepository,DataInitializer dataInitializer) {
+    public ExternalDataStructServiceImpl(ExternalDataStructRepository externalDataStructRepository, InternalDataStructRepository internalDataStructRepository,DataInitializer dataInitializer) {
         this.externalDataStructRepository = externalDataStructRepository;
+        this.internalDataStructRepository = internalDataStructRepository;
         this.dataInitializer=dataInitializer;
     }
 
     @Override
-    public String saveAll(MultipartFile file,Integer sheetAt,Integer referencePositionAt,Integer montantPosition) {
+    public String saveAll(MultipartFile file,Integer sheetAt,Integer partenaireId) {
         if(file.isEmpty()){
             log.warn("le fichier que vous passez en parametre est vide");
             throw new InvalidEntityException("Fichier vide", ErrorCodes.FILE_EMPTY);
         }
         try {
-            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),sheetAt,referencePositionAt,montantPosition);
+            dataInitializer.saveExcelDataForExternalDataStruct(file.getInputStream(),sheetAt,partenaireId);
         }catch (IOException ex){
             log.warn("erreur lors de la lecture du fichier "+ex.getMessage());
         }
@@ -45,5 +48,11 @@ public class ExternalDataStructServiceImpl implements ExternalDataStructService 
     public void deleteById(Integer id) {
         assert id!=null;
         externalDataStructRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAllDataStruct() {
+        internalDataStructRepository.deleteAll();
+        externalDataStructRepository.deleteAll();
     }
 }

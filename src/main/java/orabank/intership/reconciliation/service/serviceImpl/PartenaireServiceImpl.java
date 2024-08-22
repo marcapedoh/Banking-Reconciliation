@@ -7,6 +7,7 @@ import orabank.intership.reconciliation.Exception.InvalidEntityException;
 import orabank.intership.reconciliation.Exception.InvalidOperationException;
 import orabank.intership.reconciliation.dao.PartenaireDAO;
 import orabank.intership.reconciliation.dao.RepertoireDAO;
+import orabank.intership.reconciliation.models.Repertoire;
 import orabank.intership.reconciliation.repository.PartenaireRepository;
 import orabank.intership.reconciliation.repository.RepertoireRepository;
 import orabank.intership.reconciliation.service.PartenaireService;
@@ -36,8 +37,14 @@ public class PartenaireServiceImpl implements PartenaireService {
             log.warn("partenaire non valid voici les informations {}",partenaireDAO);
             throw new InvalidEntityException("Partenaire not valid", ErrorCodes.PARTENAIRE_NOT_FOUND);
         }
+        var partenaire=partenaireRepository.save(PartenaireDAO.toEntity(partenaireDAO));
+        RepertoireDAO repertoireDAO= RepertoireDAO.builder()
+                .nom("Rep"+partenaireDAO.getNom()+Math.round(Math.random()*100))
+                .partenaireRep(PartenaireDAO.fromEntity(partenaire))
+                .build();
+        repertoireRepository.save(RepertoireDAO.toEntity(repertoireDAO));
         return PartenaireDAO.fromEntity(
-                partenaireRepository.save(PartenaireDAO.toEntity(partenaireDAO))
+                partenaire
         );
     }
 
@@ -66,7 +73,10 @@ public class PartenaireServiceImpl implements PartenaireService {
 
     @Override
     public void deleteById(Integer id) {
-        if(repertoireRepository.findAllByPartenaireRepId(id)!=null){
+        assert id != null;
+        List<Repertoire> repertoires=repertoireRepository.findAllByPartenaireRepId(id);
+        if( repertoires != null){
+            // log.warn(" repertoire {}",repertoires);
             throw new InvalidOperationException("vous ne pouvez pas supprimé ce partenaire qui est relié à un ou plusieurs repertoire");
         }
         partenaireRepository.deleteById(id);

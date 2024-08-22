@@ -13,9 +13,7 @@ import orabank.intership.reconciliation.models.Colonne;
 @Builder
 public class ColonneDAO {
     private Integer id;
-    private int position;
     private String nomColonne;
-    @JsonIgnore
     private PartenaireDAO partenaire;
 
     public static ColonneDAO fromEntity(Colonne colonne){
@@ -24,8 +22,8 @@ public class ColonneDAO {
         }
         return ColonneDAO.builder()
                 .id(colonne.getId())
-                .position(colonne.getPosition())
                 .nomColonne(colonne.getNomColonne())
+                .partenaire(PartenaireDAO.fromEntity(colonne.getPartenaire()))
                 .build();
     }
 
@@ -33,11 +31,10 @@ public class ColonneDAO {
         if(colonneDAO==null){
             return null;
         }
-
         Colonne colonne= new Colonne();
         colonne.setId(colonneDAO.getId());
-        colonne.setPosition(colonneDAO.getPosition());
         colonne.setNomColonne(colonneDAO.getNomColonne());
+        colonne.setPartenaire(PartenaireDAO.toEntity(colonneDAO.getPartenaire()));
         return colonne;
     }
 }

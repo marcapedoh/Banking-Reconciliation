@@ -16,9 +16,7 @@ public class ColonneValidator {
         if(!StringUtils.hasLength(colonneDAO.getNomColonne())){
             errors.add("la colonne a ciblé doit avoir un nom sinon comment on va la repectorié");
         }
-        if(colonneDAO.getPosition()<0){
-            errors.add("le numero que vous entrez n'est pas valide");
-        }
+
         return errors;
     }
 }

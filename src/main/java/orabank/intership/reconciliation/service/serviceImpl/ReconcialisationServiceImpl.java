@@ -1,14 +1,18 @@
 package orabank.intership.reconciliation.service.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
+import orabank.intership.reconciliation.dao.ColonneDAO;
 import orabank.intership.reconciliation.dao.ExternalDataStructDAO;
 import orabank.intership.reconciliation.dao.InternalDataStructDAO;
+import orabank.intership.reconciliation.dao.ReconciliationResponseDAO;
 import orabank.intership.reconciliation.repository.ExternalDataStructRepository;
 import orabank.intership.reconciliation.repository.InternalDataStructRepository;
 import orabank.intership.reconciliation.service.ReconcialisationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -26,44 +30,78 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
     }
 
     @Override
-    public String reconcialisation() {
+    public List<String> reconcialisation(List<ColonneDAO> colonneDAOS) {
         var internDataDAO=internalDataStructRepository.findAll().stream().map(InternalDataStructDAO::fromEntity).collect(Collectors.toList());
+
+        List<String> messages=new ArrayList<>();
         var externDataDAO=externalDataStructRepository.findAll().stream().map(ExternalDataStructDAO::fromEntity).collect(Collectors.toList());
+
         StringBuilder result = new StringBuilder();
         boolean foundMatch = false;
         StringBuilder errorResult = new StringBuilder();
 
-        for (ExternalDataStructDAO externalDataStructDAO : externDataDAO) {
-            boolean isMatched = false; // Variable pour savoir si une correspondance a été trouvée pour chaque externalDataStructDAO
+        for(ColonneDAO colonneDAO:colonneDAOS){
+            switch (colonneDAO.getNomColonne()){
+                case "commandeRef":
+                    for(InternalDataStructDAO internalDataStructDAO:internDataDAO){
+                        boolean isMatched=false;
+                        for(ExternalDataStructDAO externalDataStructDAO:externDataDAO){
+                            if(Objects.equals(internalDataStructDAO.getCommandeRef(), externalDataStructDAO.getCommandeRef())){
+                                foundMatch = true;
+                                isMatched = true;
+                                messages.add("Transaction vérifiée : CommandRef(Orabank) "+internalDataStructDAO.getCommandeRef()+" - CommandId(partenaire) "+externalDataStructDAO.getCommandeRef()+"\n");
+                            }
+                        }
+                        if(!isMatched){
+                            messages.add("Erreur! CommandRef(partenaire) n'a pas de correspondance pour "+internalDataStructDAO.getCommandeRef()+".\n");
+                        }
+                    }
+                    break;
 
-            for (InternalDataStructDAO internalDataStructDAO : internDataDAO) {
-                if (Objects.equals(externalDataStructDAO.getReferenceId(), internalDataStructDAO.getCommandeRef())
-                        && externalDataStructDAO.getMontant() == internalDataStructDAO.getMontant()) {
-                    foundMatch = true;
-                    isMatched = true; // Une correspondance a été trouvée
-                    result.append("Transaction vérifiée et conforme: CommandId(Orabank) ")
-                            .append(internalDataStructDAO.getCommandeRef())
-                            .append(" Montant ").append(internalDataStructDAO.getMontant())
-                            .append(" - CommandId(partenaire) ")
-                            .append(externalDataStructDAO.getReferenceId())
-                            .append(" pour un montant de: ")
-                            .append(externalDataStructDAO.getMontant())
-                            .append("\n");
-                    break; // Sortir de la boucle interne si une correspondance est trouvée
-                }
-            }
+                case "date":
+                    for(InternalDataStructDAO internalDataStructDAO:internDataDAO){
+                        boolean isMatched=false;
+                        for(ExternalDataStructDAO externalDataStructDAO:externDataDAO){
+                            if(Objects.equals(internalDataStructDAO.getDate(), externalDataStructDAO.getDate()) && Objects.equals(internalDataStructDAO.getCommandeRef(), externalDataStructDAO.getCommandeRef())){
+                                foundMatch = true;
+                                isMatched = true;
 
-            // Si aucune correspondance n'a été trouvée pour cet externalDataStructDAO
-            if (!isMatched) {
-                errorResult.append("Erreur! CommandId(partenaire) ")
-                        .append(externalDataStructDAO.getReferenceId())
-                        .append(" avec Montant ").append(externalDataStructDAO.getMontant())
-                        .append(" n'a pas trouvé de correspondance.\n");
+                                messages.add("Transaction vérifiée : CommandRef(Orabank) "+"A la Date "+internalDataStructDAO.getDate()+" - CommandId(partenaire) "+"\n");
+                                break;
+                            }
+                        }
+                        if (!isMatched) {
+
+                            messages.add("Erreur! Date(partenaire) n'a pas de correspondance pour "+internalDataStructDAO.getDate()+".\n");
+                        }
+
+                    }
+                    break;
+                case "montant":
+                    for(InternalDataStructDAO internalDataStructDAO:internDataDAO){
+                        boolean isMatched=false;
+                        for(ExternalDataStructDAO externalDataStructDAO:externDataDAO){
+                            if(internalDataStructDAO.getMontant()==externalDataStructDAO.getMontant() && Objects.equals(internalDataStructDAO.getCommandeRef(), externalDataStructDAO.getCommandeRef())){
+                                foundMatch = true;
+                                isMatched = true;
+
+                                messages.add("Transaction vérifiée : CommandRef(Orabank) "+internalDataStructDAO.getCommandeRef()+"Avec le montant"+" -CommandRef(partenaire) "+externalDataStructDAO.getCommandeRef()+externalDataStructDAO.getMontant()+"\n");
+                                break;
+                            }
+                        }
+                        if (!isMatched) {
+
+                            messages.add("Erreur! Montant(partenaire) et n'a pas de correspondance pour "+internalDataStructDAO.getMontant()+".\n");
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("Erreur vérifier le nom des colonnes");
+                    break;
             }
         }
-
         // Renvoyer les résultats
-        String finalResult = result.toString() + "\n" + errorResult.toString();
-        return finalResult;
+        return messages
+                ;
     }
 }

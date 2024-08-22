@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import orabank.intership.reconciliation.models.UserType;
 import orabank.intership.reconciliation.models.Utilisateur;
 
 @Data
@@ -16,6 +17,7 @@ public class UtilisateurDAO {
     private String nom;
     private String prenom;
     private String userName;
+    private UserType roleUser;
     private String motDePasse;
 
     public static UtilisateurDAO fromEntity(Utilisateur utilisateur){
@@ -26,6 +28,7 @@ public class UtilisateurDAO {
                 .id(utilisateur.getId())
                 .nom(utilisateur.getNom())
                 .prenom(utilisateur.getPrenom())
+                .roleUser(utilisateur.getRoleUser())
                 .userName(utilisateur.getUsername())
                 .motDePasse(utilisateur.getMotDePasse())
                 .build();
@@ -39,6 +42,7 @@ public class UtilisateurDAO {
         utilisateur.setId(utilisateurDAO.getId());
         utilisateur.setNom(utilisateurDAO.getNom());
         utilisateur.setPrenom(utilisateurDAO.getPrenom());
+        utilisateur.setRoleUser(utilisateurDAO.getRoleUser());
         utilisateur.setUserName(utilisateurDAO.getUserName());
         utilisateur.setMotDePasse(utilisateurDAO.getMotDePasse());
         return utilisateur;
