@@ -36,7 +36,7 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
         List<String> messages=new ArrayList<>();
         var externDataDAO=externalDataStructRepository.findAll().stream().map(ExternalDataStructDAO::fromEntity).collect(Collectors.toList());
 
-        StringBuilder result = new StringBuilder();
+
         boolean foundMatch = false;
         StringBuilder errorResult = new StringBuilder();
 
@@ -49,7 +49,7 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
                             if(Objects.equals(internalDataStructDAO.getCommandeRef(), externalDataStructDAO.getCommandeRef())){
                                 foundMatch = true;
                                 isMatched = true;
-                                messages.add("Transaction vérifiée : CommandRef(Orabank) "+internalDataStructDAO.getCommandeRef()+" - CommandId(partenaire) "+externalDataStructDAO.getCommandeRef()+"\n");
+                                messages.add("Transaction vérifiée : CommandRef(Orabank) "+internalDataStructDAO.getCommandeRef()+" - CommandRef(partenaire) "+externalDataStructDAO.getCommandeRef()+"\n");
                             }
                         }
                         if(!isMatched){
@@ -74,7 +74,6 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
 
                             messages.add("Erreur! Date(partenaire) n'a pas de correspondance pour "+internalDataStructDAO.getDate()+".\n");
                         }
-
                     }
                     break;
                 case "montant":
@@ -101,7 +100,6 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
             }
         }
         // Renvoyer les résultats
-        return messages
-                ;
+        return messages;
     }
 }

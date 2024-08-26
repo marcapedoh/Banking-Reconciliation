@@ -39,8 +39,9 @@ public class PartenaireServiceImpl implements PartenaireService {
         }
         var partenaire=partenaireRepository.save(PartenaireDAO.toEntity(partenaireDAO));
         RepertoireDAO repertoireDAO= RepertoireDAO.builder()
-                .nom("Rep"+partenaireDAO.getNom()+Math.round(Math.random()*100))
+                .nom("REP"+partenaireDAO.getNom()+Math.round(Math.random()*100))
                 .partenaireRep(PartenaireDAO.fromEntity(partenaire))
+                .status(false)
                 .build();
         repertoireRepository.save(RepertoireDAO.toEntity(repertoireDAO));
         return PartenaireDAO.fromEntity(
@@ -76,7 +77,6 @@ public class PartenaireServiceImpl implements PartenaireService {
         assert id != null;
         List<Repertoire> repertoires=repertoireRepository.findAllByPartenaireRepId(id);
         if( repertoires != null){
-            // log.warn(" repertoire {}",repertoires);
             throw new InvalidOperationException("vous ne pouvez pas supprimé ce partenaire qui est relié à un ou plusieurs repertoire");
         }
         partenaireRepository.deleteById(id);

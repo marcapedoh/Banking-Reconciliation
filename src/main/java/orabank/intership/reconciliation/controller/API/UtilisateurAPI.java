@@ -36,6 +36,13 @@ public interface UtilisateurAPI {
             @ApiResponse(code=404,message = "l'utilisateur n'est pas trouvé dans la base de donnée")
     })
     UtilisateurDAO findByNom(@PathVariable("nom") String nom);
+    @GetMapping(value = APP_ROOT+"/Utilisateurs/findByUserNameAndPassword/{user}/{motDePasse}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Rechercher un utilisateur", notes=" cette methode permet de rechercher un utilisateur par son nom",response = UtilisateurDAO.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200,message = "l'utilisateur a été trouvé dans la base de donnée"),
+            @ApiResponse(code=404,message = "l'utilisateur n'est pas trouvé dans la base de donnée")
+    })
+    UtilisateurDAO findByUserNameAndPassword(@PathVariable("user") String user,@PathVariable("motDePasse") String motDepasse);
     @GetMapping(value = APP_ROOT+"/Utilisateurs/all",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Renvoi la liste des utilisateurs", notes=" cette methode permet de retourner des utilisateurs ",responseContainer = "List<UtilisateurDAO>")
     @ApiResponses(value = {

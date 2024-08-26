@@ -27,6 +27,11 @@ public class UtilisateurController implements UtilisateurAPI {
     }
 
     @Override
+    public UtilisateurDAO findByUserNameAndPassword(String user, String motDepasse) {
+        return utilisateurService.findByUserNameAndPassword(user,motDepasse);
+    }
+
+    @Override
     public UtilisateurDAO save(UtilisateurDAO user) {
         return utilisateurService.save(user);
     }

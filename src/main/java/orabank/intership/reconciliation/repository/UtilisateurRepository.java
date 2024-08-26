@@ -9,4 +9,5 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur,Integer
 
     Optional<Utilisateur> findByNom(String nom);
     Optional<Utilisateur> findByUserName(String nom);
+    Optional<Utilisateur> findByUserNameAndMotDePasse(String nom,String motDePasse);
 }

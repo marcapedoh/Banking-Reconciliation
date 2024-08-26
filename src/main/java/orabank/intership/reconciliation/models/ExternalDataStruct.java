@@ -38,4 +38,7 @@ public class ExternalDataStruct extends AbstractEntity{
     @ManyToOne
     @JoinColumn(name = "idPartenaire")
     private Partenaire partenaireData;
+    @ManyToOne
+    @JoinColumn(name = "idRepertoire")
+    private Repertoire repertoire;
 }

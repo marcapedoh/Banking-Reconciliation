@@ -33,7 +33,6 @@ public class AuthenticationService {
         if(!StringUtils.hasLength(user1.getUsername())){
             log.warn("le username de ce utilisateur est nul");
         }
-
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

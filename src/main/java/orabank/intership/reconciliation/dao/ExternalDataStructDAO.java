@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import orabank.intership.reconciliation.models.ExternalDataStruct;
 import orabank.intership.reconciliation.models.Partenaire;
+import orabank.intership.reconciliation.models.Repertoire;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class ExternalDataStructDAO {
     private String refApiTierce;
     private String refOperateur;
     private PartenaireDAO partenaireData;
+    private RepertoireDAO repertoire;
 
     public static ExternalDataStructDAO fromEntity(ExternalDataStruct externalDataStruct){
         if(externalDataStruct==null){
@@ -50,6 +52,7 @@ public class ExternalDataStructDAO {
                 .refOperateur(externalDataStruct.getRefOperateur())
                 .montant(externalDataStruct.getMontant())
                 .partenaireData(PartenaireDAO.fromEntity(externalDataStruct.getPartenaireData()))
+                .repertoire(RepertoireDAO.fromEntity(externalDataStruct.getRepertoire()))
                 .build();
     }
     public static  ExternalDataStruct toEntity(ExternalDataStructDAO externalDataStructDAO){
@@ -70,6 +73,7 @@ public class ExternalDataStructDAO {
         externalDataStruct.setRefOperateur(externalDataStructDAO.getRefOperateur());
         externalDataStruct.setMontant(externalDataStructDAO.getMontant());
         externalDataStruct.setPartenaireData(PartenaireDAO.toEntity(externalDataStructDAO.getPartenaireData()));
+        externalDataStruct.setRepertoire(RepertoireDAO.toEntity(externalDataStructDAO.getRepertoire()));
         return externalDataStruct;
     }
 
@@ -92,6 +96,7 @@ public class ExternalDataStructDAO {
                             .refOperateur(externalDataStructDAO.getRefOperateur())
                             .montant(externalDataStructDAO.getMontant())
                             .partenaireData(PartenaireDAO.toEntity(externalDataStructDAO.getPartenaireData()))
+                            .repertoire(RepertoireDAO.toEntity(externalDataStructDAO.getRepertoire()))
                     .build());
         }
         return externalDataStructs;

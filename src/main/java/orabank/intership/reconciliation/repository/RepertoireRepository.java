@@ -10,4 +10,6 @@ public interface RepertoireRepository extends JpaRepository<Repertoire,Integer> 
 
     Optional<Repertoire> findByNom(String nom);
     List<Repertoire> findAllByPartenaireRepId(Integer id);
+
+    Optional<Repertoire> findByPartenaireRepId(Integer id);
 }

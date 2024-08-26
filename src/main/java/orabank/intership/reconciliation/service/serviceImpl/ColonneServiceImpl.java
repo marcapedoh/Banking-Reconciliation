@@ -29,7 +29,7 @@ public class ColonneServiceImpl implements ColonneService {
         List<String> errors= ColonneValidator.validate(colonneDAO);
         if(!errors.isEmpty()){
             log.warn("voici votre colonne {}",colonneDAO);
-            throw new InvalidEntityException("vous passez une colonne nom valide", ErrorCodes.COLONNE_NOT_VALID);
+            throw new InvalidEntityException("vous passez une colonne nom valide", ErrorCodes.COLONNE_NOT_VALID,errors);
         }
         return ColonneDAO.fromEntity(
                 colonneRepository.save(ColonneDAO.toEntity(colonneDAO))

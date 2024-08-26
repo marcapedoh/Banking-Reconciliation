@@ -28,7 +28,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         this.passwordEncoder=passwordEncoder;
     }
 
-
     @Override
     public UtilisateurDAO save(UtilisateurDAO user) {
         List<String> errors= UtilisateurValidator.validate(user);
@@ -55,6 +54,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurRepository.findByNom(nom)
                 .map(UtilisateurDAO::fromEntity)
                 .orElseThrow(()-> new EntityNotFoundException("aucun utliisateur n'est trouvé dans la base de donnée avec cet nom",ErrorCodes.UTILISATEUR_NOT_FOUND));
+    }
+
+    @Override
+    public UtilisateurDAO findByUserNameAndPassword(String user, String motDepasse) {
+        assert user!=null;
+        assert motDepasse!=null;
+        var utilisateur=utilisateurRepository.findByUserName(user).map(UtilisateurDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("aucun utilisateur trouvé pour ce nom"));
+        if(passwordEncoder.matches(motDepasse,utilisateur.getMotDePasse())){
+            return utilisateur;
+        }else{
+            throw new EntityNotFoundException("Aucun utilisateur trouvé avec ces informations");
+        }
     }
 
     @Override

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orabank.intership.reconciliation.Exception.EntityNotFoundException;
 import orabank.intership.reconciliation.dao.*;
-import orabank.intership.reconciliation.repository.ExternalDataStructRepository;
-import orabank.intership.reconciliation.repository.InternalDataStructRepository;
-import orabank.intership.reconciliation.repository.PartenaireRepository;
-import orabank.intership.reconciliation.repository.UtilisateurRepository;
+import orabank.intership.reconciliation.repository.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.hibernate.action.internal.EntityActionVetoException;
@@ -26,11 +23,11 @@ public class DataInitializer {
     private final ExternalDataStructRepository externalDataStructRepository;
     private final InternalDataStructRepository internalDataStructRepository;
     private final PartenaireRepository partenaireRepository;
+    private final RepertoireRepository repertoireRepository;
     public void saveExcelData(InputStream inputStream){
         List<InternalDataStructDAO> internalDataStructDAOS= new ArrayList<>();
         try {
             Workbook workbook= WorkbookFactory.create(inputStream);
-
             workbook.getSheetAt(0).forEach(row->{
                 if (row.getRowNum() == 0) {
                     return; // Ignore la première ligne
@@ -80,12 +77,11 @@ public class DataInitializer {
             log.error("Erreur lors du passage du fichier excel");
         }
     }
-    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer userId,Integer sheetAt){
+    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer partenaireId,Integer sheetAt){
         List<ExternalDataStructDAO> externalDataStructDAOS= new ArrayList<>();
 
-        var partenaire=partenaireRepository.findById(userId).map(PartenaireDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("aucun partenaire trouver pour cette id"));
-
-
+        var partenaire=partenaireRepository.findById(partenaireId).map(PartenaireDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("aucun partenaire trouver pour cette id"));
+        var repertoire= repertoireRepository.findByPartenaireRepId(partenaire.getId()).map(RepertoireDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("Aucun repertoire n'est trouvé pour cet id"));
         try {
             Workbook workbook= WorkbookFactory.create(inputStream);
 
@@ -118,6 +114,7 @@ public class DataInitializer {
                         .refOperateur(refOperateur)
                         .partenaireData(partenaire)
                         .montant(montant)
+                        .repertoire(repertoire)
                         .build();
                 externalDataStructDAOS.add(externalDataStructDAO);
             });
