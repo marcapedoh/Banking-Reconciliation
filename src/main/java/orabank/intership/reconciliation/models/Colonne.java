@@ -20,4 +20,8 @@ public class Colonne extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "idPartenaire")
     private Partenaire partenaire;
+
+    @ManyToOne
+    @JoinColumn(name = "idFileStruct")
+    private FileStruct fileStruct;
 }

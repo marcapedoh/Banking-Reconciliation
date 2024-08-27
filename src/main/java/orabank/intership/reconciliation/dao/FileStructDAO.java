@@ -20,7 +20,7 @@ import java.util.List;
 public class FileStructDAO {
     private Integer id;
     private Integer numberOfColumns;
-    private List<Colonne> colonnes;
+    private List<ColonneDAO> colonnes;
 
     public static FileStructDAO fromEntity(FileStruct fileStruct){
         if(fileStruct==null){
@@ -29,7 +29,7 @@ public class FileStructDAO {
         return FileStructDAO.builder()
                 .id(fileStruct.getId())
                 .numberOfColumns(fileStruct.getNumberOfColumns())
-                .colonnes(fileStruct.getColonnes())
+                .colonnes(ColonneDAO.fromEntities(fileStruct.getColonnes()))
                 .build();
     }
 
@@ -40,7 +40,7 @@ public class FileStructDAO {
         FileStruct fileStruct= new FileStruct();
         fileStruct.setId(fileStructDAO.getId());
         fileStruct.setNumberOfColumns(fileStruct.getNumberOfColumns());
-        fileStruct.setColonnes(fileStructDAO.getColonnes());
+        fileStruct.setColonnes(ColonneDAO.toEntities(fileStructDAO.getColonnes()));
 
         return fileStruct;
     }

@@ -2,6 +2,7 @@ package orabank.intership.reconciliation.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class FileStruct extends AbstractEntity{
     private Integer numberOfColumns;
 
     @Column(name = "colonnes",nullable = false)
+    @OneToMany(mappedBy = "fileStruct")
     private List<Colonne> colonnes;
 
 }
