@@ -33,7 +33,7 @@ public class DataInitializer {
                     return; // Ignore la première ligne
                 }
                 long refRel= (long) row.getCell(0).getNumericCellValue();
-                String reference= row.getCell(1).getStringCellValue();
+                //String reference= row.getCell(1).getStringCellValue();
                 String date= row.getCell(2).getStringCellValue();
                 String type= row.getCell(3).getStringCellValue();
                 double montant= row.getCell(4).getNumericCellValue();
@@ -51,7 +51,7 @@ public class DataInitializer {
                 boolean isCanceled= row.getCell(16).getBooleanCellValue();
                 InternalDataStructDAO internalDataStructDAO= InternalDataStructDAO.builder()
                         .refRel(refRel)
-                        .reference(reference)
+                        //.reference(reference)
                         .date(date)
                         .type(type)
                         .montant(montant)
@@ -77,7 +77,7 @@ public class DataInitializer {
             log.error("Erreur lors du passage du fichier excel");
         }
     }
-    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer partenaireId,Integer sheetAt){
+    public void saveExcelDataForExternalDataStruct(InputStream inputStream,Integer partenaireId){
         List<ExternalDataStructDAO> externalDataStructDAOS= new ArrayList<>();
 
         var partenaire=partenaireRepository.findById(partenaireId).map(PartenaireDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("aucun partenaire trouver pour cette id"));
@@ -85,7 +85,7 @@ public class DataInitializer {
         try {
             Workbook workbook= WorkbookFactory.create(inputStream);
 
-            workbook.getSheetAt(sheetAt).forEach(rowExternal->{
+            workbook.getSheetAt(0).forEach(rowExternal->{
                 if (rowExternal.getRowNum() == 0) {
                     return;
                 }

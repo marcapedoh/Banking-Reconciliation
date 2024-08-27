@@ -48,7 +48,7 @@ public class InternalDataStructDAO {
                 .commission(internalDataStruct.getCommission())
                 .etat(internalDataStruct.getEtat())
                 .compte(internalDataStruct.getCompte())
-                .refApiTierce(internalDataStruct.getReference())
+                .refApiTierce(internalDataStruct.getRefApiTierce())
                 .commandeRef(internalDataStruct.getCommandeRef())
                 .refOperateur(internalDataStruct.getRefOperateur())
                 .isSuccess(internalDataStruct.isSuccess())

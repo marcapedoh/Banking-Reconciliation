@@ -15,7 +15,7 @@ import java.time.Instant;
 public class InternalDataStruct extends AbstractEntity {
     @Column(name = "refRel",nullable = false)
     private long refRel;
-    @Column(name = "reference",nullable = false)
+    @Column(name = "reference",nullable = true)
     private String reference;
     @Column(name = "Date",nullable = false)
     private String date;

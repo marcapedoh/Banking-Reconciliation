@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ExternalDataStructService {
-    String saveAll(MultipartFile file,Integer sheetAt,Integer partenaireId);
+    String saveAll(MultipartFile file,Integer partenaireId);
     void deleteById(Integer id);
     void deleteAllDataStruct();
 }

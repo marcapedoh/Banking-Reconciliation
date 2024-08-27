@@ -13,12 +13,12 @@ import static orabank.intership.reconciliation.constant.Utils.APP_ROOT;
 
 @Api(APP_ROOT+"/DonneesPartenaire")
 public interface ExternalDataStructAPI {
-    @PostMapping(value = APP_ROOT+"/DonneesPartenaire/saveAll/{sheetAt}/{partenaireId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = APP_ROOT+"/DonneesPartenaire/saveAll/{partenaireId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "enregistrer des données par lots pour les partenaires", notes=" cette methode permet d'enregistrer des données des partenaires",response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "les données ont ete bien crée ")
     })
-    String saveAll(@RequestPart("file") MultipartFile file,@PathVariable("sheetAt") Integer sheetAt,@PathVariable("partenaireId") Integer partenaireId);
+    String saveAll(@RequestPart("file") MultipartFile file,@PathVariable("partenaireId") Integer partenaireId);
 
     @DeleteMapping(value = APP_ROOT+"/DonneesPartenaire/delete/{id}")
     void deleteById(@PathVariable("id") Integer id);
