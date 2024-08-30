@@ -20,6 +20,8 @@ import java.util.List;
 public class FileStructDAO {
     private Integer id;
     private Integer numberOfColumns;
+    private boolean useForConciliation;
+    @JsonIgnore
     private List<ColonneDAO> colonnes;
 
     public static FileStructDAO fromEntity(FileStruct fileStruct){
@@ -28,6 +30,7 @@ public class FileStructDAO {
         }
         return FileStructDAO.builder()
                 .id(fileStruct.getId())
+                .useForConciliation(fileStruct.isUseForConciliation())
                 .numberOfColumns(fileStruct.getNumberOfColumns())
                 .colonnes(ColonneDAO.fromEntities(fileStruct.getColonnes()))
                 .build();
@@ -39,7 +42,8 @@ public class FileStructDAO {
         }
         FileStruct fileStruct= new FileStruct();
         fileStruct.setId(fileStructDAO.getId());
-        fileStruct.setNumberOfColumns(fileStruct.getNumberOfColumns());
+        fileStruct.setUseForConciliation(fileStructDAO.isUseForConciliation());
+        fileStruct.setNumberOfColumns(fileStructDAO.getNumberOfColumns());
         fileStruct.setColonnes(ColonneDAO.toEntities(fileStructDAO.getColonnes()));
 
         return fileStruct;

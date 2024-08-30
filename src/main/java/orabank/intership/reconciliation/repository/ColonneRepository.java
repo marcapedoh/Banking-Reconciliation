@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ColonneRepository extends JpaRepository<Colonne,Integer> {
     Optional<Colonne> findByNomColonne(String nom);
     List<Colonne> findAllByPartenaireNom(String nomPartenaire);
+    List<Colonne> findAllByFileStructId(Integer id);
 }

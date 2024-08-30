@@ -21,7 +21,7 @@ public class ReconciliationController implements ReconciliationAPI {
     }
 
     @Override
-    public List<String> reconcialisation(List<ColonneDAO> colonneDAOS) {
-        return reconcialisationService.reconcialisation(colonneDAOS);
+    public List<String> reconcialisation() {
+        return reconcialisationService.reconcialisation();
     }
 }

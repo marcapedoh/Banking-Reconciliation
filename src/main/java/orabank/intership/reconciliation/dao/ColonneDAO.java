@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import orabank.intership.reconciliation.models.Colonne;
 import orabank.intership.reconciliation.models.ExternalDataStruct;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ColonneDAO {
     private Integer id;
     private String nomColonne;
     private PartenaireDAO partenaire;
+    private FileStructDAO fileStructDAO;
 
     public static ColonneDAO fromEntity(Colonne colonne){
         if(colonne==null){
@@ -28,6 +30,7 @@ public class ColonneDAO {
                 .id(colonne.getId())
                 .nomColonne(colonne.getNomColonne())
                 .partenaire(PartenaireDAO.fromEntity(colonne.getPartenaire()))
+                .fileStructDAO(FileStructDAO.fromEntity(colonne.getFileStruct()))
                 .build();
     }
 
@@ -39,6 +42,7 @@ public class ColonneDAO {
         colonne.setId(colonneDAO.getId());
         colonne.setNomColonne(colonneDAO.getNomColonne());
         colonne.setPartenaire(PartenaireDAO.toEntity(colonneDAO.getPartenaire()));
+        colonne.setFileStruct(FileStructDAO.toEntity(colonneDAO.getFileStructDAO()));
         return colonne;
     }
 

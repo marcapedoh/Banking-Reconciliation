@@ -16,7 +16,8 @@ import java.util.List;
 public class FileStruct extends AbstractEntity{
     @Column(name = "numberOfColumns",nullable = false)
     private Integer numberOfColumns;
-
+    @Column(name = "useForConciliation",nullable = false)
+    private boolean useForConciliation;
     @Column(name = "colonnes",nullable = false)
     @OneToMany(mappedBy = "fileStruct")
     private List<Colonne> colonnes;

@@ -1,11 +1,11 @@
 package orabank.intership.reconciliation.service.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
-import orabank.intership.reconciliation.dao.ColonneDAO;
-import orabank.intership.reconciliation.dao.ExternalDataStructDAO;
-import orabank.intership.reconciliation.dao.InternalDataStructDAO;
-import orabank.intership.reconciliation.dao.ReconciliationResponseDAO;
+import orabank.intership.reconciliation.Exception.EntityNotFoundException;
+import orabank.intership.reconciliation.dao.*;
+import orabank.intership.reconciliation.repository.ColonneRepository;
 import orabank.intership.reconciliation.repository.ExternalDataStructRepository;
+import orabank.intership.reconciliation.repository.FileStructRepository;
 import orabank.intership.reconciliation.repository.InternalDataStructRepository;
 import orabank.intership.reconciliation.service.ReconcialisationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +22,30 @@ import java.util.stream.Collectors;
 public class ReconcialisationServiceImpl implements ReconcialisationService {
     private final InternalDataStructRepository internalDataStructRepository;
     private final ExternalDataStructRepository externalDataStructRepository;
+    private final FileStructRepository fileStructRepository;
+    private final ColonneRepository colonneRepository;
 
     @Autowired
-    public ReconcialisationServiceImpl(InternalDataStructRepository internalDataStructRepository,ExternalDataStructRepository externalDataStructRepository) {
+    public ReconcialisationServiceImpl(InternalDataStructRepository internalDataStructRepository,ExternalDataStructRepository externalDataStructRepository,FileStructRepository fileStructRepository,ColonneRepository colonneRepository) {
         this.internalDataStructRepository = internalDataStructRepository;
         this.externalDataStructRepository=externalDataStructRepository;
+        this.fileStructRepository=fileStructRepository;
+        this.colonneRepository=colonneRepository;
     }
 
     @Override
-    public List<String> reconcialisation(List<ColonneDAO> colonneDAOS) {
+    public List<String> reconcialisation() {
+        var fileStructureDAO= fileStructRepository.findWhereUSeIsTrue().map(FileStructDAO::fromEntity).orElseThrow(()-> new EntityNotFoundException("Aucune structure n'est trouvé dans la base de donné"));
         var internDataDAO=internalDataStructRepository.findAll().stream().map(InternalDataStructDAO::fromEntity).collect(Collectors.toList());
 
         List<String> messages=new ArrayList<>();
         var externDataDAO=externalDataStructRepository.findAll().stream().map(ExternalDataStructDAO::fromEntity).collect(Collectors.toList());
 
-
+        var colonnes=colonneRepository.findAllByFileStructId(fileStructureDAO.getId()).stream().map(ColonneDAO::fromEntity).collect(Collectors.toList());
         boolean foundMatch = false;
         StringBuilder errorResult = new StringBuilder();
 
-        for(ColonneDAO colonneDAO:colonneDAOS){
+        for(ColonneDAO colonneDAO:colonnes){
             switch (colonneDAO.getNomColonne()){
                 case "commandeRef":
                     for(InternalDataStructDAO internalDataStructDAO:internDataDAO){
@@ -99,7 +104,17 @@ public class ReconcialisationServiceImpl implements ReconcialisationService {
                     break;
             }
         }
-        // Renvoyer les résultats
+        int countSuccessfully=0;
+        int countError=0;
+        for(String str:messages){
+            if(str.contains("Transaction vérifiée")){
+                countSuccessfully+=1;
+            }else if(str.contains("Erreur! ")){
+                countError+=1;
+            }
+
+        }
+        messages.add("Transactions correct et cohérente: "+countSuccessfully+"\nEt "+countError+"Erreurs trouvés");
         return messages;
     }
 }

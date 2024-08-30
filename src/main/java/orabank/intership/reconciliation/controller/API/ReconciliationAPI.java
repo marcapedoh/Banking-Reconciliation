@@ -24,5 +24,5 @@ public interface ReconciliationAPI {
     @ApiResponses(value = {
             @ApiResponse(code = 200,message = "le rapprochement a été bien effectué dans la base de donnée"),
     })
-    List<String> reconcialisation(@RequestBody List<ColonneDAO> colonneDAOS);
+    List<String> reconcialisation();
 }
